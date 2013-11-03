@@ -1,13 +1,9 @@
 package org.gismarzf;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Operation {
 
 	private int index, jobNo, machineNo, length;
-	private List<Arc> conjunctiveArcs = new ArrayList<Arc>();
-	private List<Arc> disjunctiveArcs = new ArrayList<Arc>();
 
 	public int getIndex() {
 		return index;
@@ -15,22 +11,6 @@ public class Operation {
 
 	public void setIndex(int index) {
 		this.index = index;
-	}
-
-	public List<Arc> getConjunctiveArcs() {
-		return conjunctiveArcs;
-	}
-
-	public void setConjunctiveArcs(List<Arc> conyuntiveArcs) {
-		this.conjunctiveArcs = conyuntiveArcs;
-	}
-
-	public List<Arc> getDisjunctiveArcs() {
-		return disjunctiveArcs;
-	}
-
-	public void setDisjunctiveArcs(List<Arc> disyuntiveArcs) {
-		this.disjunctiveArcs = disyuntiveArcs;
 	}
 
 	public int getJobNo() {
@@ -56,5 +36,4 @@ public class Operation {
 	public void setMachineNo(int machineNo) {
 		this.machineNo = machineNo;
 	}
-
 }

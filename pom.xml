@@ -24,8 +24,9 @@
           <target/>
         </configuration>
       </plugin>
-    </plugins>
-  </build>
+        </plugins>
+    </build>
+
   <dependencies>
   	<dependency>
   		<groupId>org.apache.poi</groupId>
@@ -80,6 +81,19 @@
   <dependency>
     <groupId>org.apache.logging.log4j</groupId>
     <artifactId>log4j-core</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+</dependency>
+  
+  <dependency>
+  	<groupId>net.sf.jgrapht</groupId>
+  	<artifactId>jgrapht</artifactId>
+  </dependency>
+  <dependency>
+  	<groupId>jgraph</groupId>
+  	<artifactId>jgraph</artifactId>
   </dependency>
   </dependencies>
   <dependencyManagement>
@@ -138,6 +152,21 @@
   			<groupId>org.apache.logging.log4j</groupId>
   			<artifactId>log4j-core</artifactId>
   			<version>2.0-beta9</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>com.google.guava</groupId>
+  			<artifactId>guava</artifactId>
+  			<version>15.0</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>net.sf.jgrapht</groupId>
+  			<artifactId>jgrapht</artifactId>
+  			<version>0.8.3</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>jgraph</groupId>
+  			<artifactId>jgraph</artifactId>
+  			<version>5.13.0.0</version>
   		</dependency>
   	</dependencies>
   </dependencyManagement>
