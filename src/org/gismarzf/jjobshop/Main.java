@@ -58,6 +58,7 @@ public class Main {
 			+ (maxTiempo / (60 * 1000))
 			+ " minutos con max. lista tabu de " + maxTabu);
 		logger.info("Funcional: " + best.getFunctional());
+
 		in.next();
 		in.close();
 

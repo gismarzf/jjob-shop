@@ -101,14 +101,14 @@ public class Excel {
 		try {
 
 			File file = File.createTempFile(
-				((int) functional) + "-output", ".xlsx",
+				((int) functional) + "-output", ".xlsm",
 				new File("."));
 
 			Workbook wb = WorkbookFactory.create(getClass()
 				.getResourceAsStream("/input.xlsm"));
 
 			XSSFSheet sheet = (XSSFSheet) wb
-				.createSheet("OUTPUT");
+				.getSheet("OUTPUT");
 
 			FileOutputStream out = new FileOutputStream(
 				file);
