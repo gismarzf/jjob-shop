@@ -1,4 +1,4 @@
-package org.gismarzf;
+package org.gismarzf.jjobshop;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,14 +6,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ModelTest {
-	ExcelReader er;
-	Model m;
+public class SolutionTest {
+	Excel er;
+	Solution s;
 
 	@Before
 	public void setUp() throws Exception {
-		er = new ExcelReader(300);
-		m = new Model(3, er.getOperations());
+		er = new Excel(300);
+		s = new Solution(3, er.getOperations());
 	}
 
 	@After
@@ -22,8 +22,7 @@ public class ModelTest {
 
 	@Test
 	public void testCalculateFunctional() {
-		m.createGraph();
-		assertTrue(m.calculateFunctional() == 1289.0);
+		assertTrue(s.getFunctional() == 1289.0);
 	}
 
 }

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.gismarzf</groupId>
   <artifactId>jjob-shop</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <name>Java Job-Shop problem solver</name>
   <description>IOSUP, Grupo 5, FiUBA</description>
   <build>
@@ -16,12 +16,26 @@
       </resource>
     </resources>
     <plugins>
+    <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>org.gismarzf.jjobshop.Main</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+    </plugin>
+
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source/>
-          <target/>
+		<source>1.7</source>
+        <target>1.7</target>
         </configuration>
       </plugin>
         </plugins>
@@ -91,6 +105,12 @@
   	<groupId>net.sf.jgrapht</groupId>
   	<artifactId>jgrapht</artifactId>
   </dependency>
+  <dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.11</version>
+</dependency>
+            
   <dependency>
   	<groupId>jgraph</groupId>
   	<artifactId>jgraph</artifactId>

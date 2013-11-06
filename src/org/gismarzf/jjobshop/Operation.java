@@ -1,5 +1,4 @@
-package org.gismarzf;
-
+package org.gismarzf.jjobshop;
 
 public class Operation {
 
@@ -35,5 +34,9 @@ public class Operation {
 
 	public void setMachineNo(int machineNo) {
 		this.machineNo = machineNo;
+	}
+
+	public String toString() {
+		return Integer.toString(index);
 	}
 }
