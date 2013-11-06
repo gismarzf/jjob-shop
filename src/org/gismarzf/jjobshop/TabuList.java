@@ -4,7 +4,6 @@ import java.util.Queue;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.gismarzf.jjobshop.Arc.Type;
 
 import com.google.common.collect.Queues;
 
@@ -22,6 +21,10 @@ public class TabuList {
 		this.maxSize = maxSize;
 	}
 
+	public int getSize() {
+		return tabuList.size();
+	}
+
 	private int maxSize;
 	private Queue<Integer> tabuList = Queues
 		.newArrayDeque();
@@ -30,7 +33,7 @@ public class TabuList {
 	private static Logger logger = LogManager.getLogger();
 
 	public void add(Arc e) {
-		assert !tabuList.contains(e.getArcIndex());
+		assert !tabuList.contains(e);
 
 		if (tabuList.size() >= maxSize)
 			tabuList.poll();
@@ -40,8 +43,7 @@ public class TabuList {
 	}
 
 	public boolean isTabu(Arc a) {
-		if (tabuList.contains(a.getArcIndex())
-			&& (a.getType() == Type.Disjunctive)) {
+		if (tabuList.contains(a.getArcIndex())) {
 			logger.trace("****");
 			logger.trace("Salto arco tabu: "
 				+ a.getArcIndex());

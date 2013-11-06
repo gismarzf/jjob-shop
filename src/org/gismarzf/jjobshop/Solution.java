@@ -16,6 +16,8 @@ public class Solution {
 		this.jobCount = jobCount;
 		this.opxMachine = jobCount;
 		this.operations = operations;
+		this.errors = -1;
+		this.functional = -1;
 
 		createGraph();
 		calculateCriticalPath();

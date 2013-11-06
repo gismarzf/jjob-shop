@@ -59,7 +59,8 @@ public class Excel {
 			parseSheet(sheet);
 
 		} catch (IOException | InvalidFormatException e) {
-			e.printStackTrace();
+			logger.error("No pude leer excel!");
+			logger.error(e);
 		}
 
 	}
@@ -176,7 +177,8 @@ public class Excel {
 			out.close();
 
 		} catch (IOException | InvalidFormatException e) {
-			e.printStackTrace();
+			logger.error("No pude exportar a excel!");
+			logger.error(e);
 		}
 	}
 }
