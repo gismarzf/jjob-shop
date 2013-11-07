@@ -35,20 +35,20 @@ public class Main {
 		while (((System.currentTimeMillis() - start) < maxTiempo)) {
 
 			Neighbourhood nbh =
-				new Neighbourhood(
-					s,
-					s.getCriticalPath(),
-					tl,
-					true);
+				Neighbourhood.newCriticalNeighbourhood(s, s
+					.getCriticalPath(), tl);
+
 			s = nbh.solutionWithBestFunctional(best, tl);
 
 			if (s == null) {
+
 				logger
 					.error("No puedo generar mas vecindarios"
 						+ " porque todos posibles vecinos estan tabu!!!");
+
 				logger.error("Lista tabu tiene "
-					+ tl.getSize()
-					+ " items.");
+					+ tl.getSize() + " items.");
+
 				break;
 			}
 
@@ -60,8 +60,11 @@ public class Main {
 					+ ((maxTiempo - (System
 						.currentTimeMillis() - start)) / (60 * 1000))
 					+ " minutos..");
+
 			logger.info("Este funcional: "
-				+ s.getFunctional());
+				+ s.getFunctional() + " (Move: "
+				+ s.getMove() + ")");
+
 			logger.info("Mejor funcional: "
 				+ best.getFunctional());
 
@@ -77,6 +80,7 @@ public class Main {
 				+ ((System.currentTimeMillis() - start) / (60 * 1000))
 				+ " minutos con max. lista tabu de "
 				+ maxTabu);
+
 		logger.info("Funcional: " + best.getFunctional());
 
 		in.next();

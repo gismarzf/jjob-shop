@@ -10,23 +10,51 @@ import com.google.common.collect.Lists;
 
 public class Neighbourhood {
 
-	public Neighbourhood(Solution currentSolution,
-		List<Arc> edges, TabuList tabuList,
-		boolean isCritical) {
+	public static Neighbourhood newCriticalNeighbourhood(
+		Solution currentSolution, List<Arc> edges,
+		TabuList tabuList) {
+
+		Neighbourhood nbh =
+			new Neighbourhood(
+				currentSolution, edges, tabuList, true);
+
+		return nbh;
+	}
+
+	public static Neighbourhood newCompleteNeighbourhood(
+		Solution currentSolution, List<Arc> edges,
+		TabuList tabuList) {
+
+		Neighbourhood nbh =
+			new Neighbourhood(
+				currentSolution, edges, tabuList, false);
+
+		return nbh;
+	};
+
+	public Neighbourhood(
+		Solution currentSolution, List<Arc> edges,
+		TabuList tabuList, boolean isCritical) {
 
 		for (Arc e : edges) {
 
 			if (e.getType() == Type.Disjunctive) {
-				Solution nextSolution = new Solution(
-					currentSolution);
+
+				Solution nextSolution =
+					new Solution(currentSolution);
+
 				nextSolution.switchDirectionOfArc(e);
 
 				if (isCritical) {
+
 					try {
+
 						assert !nextSolution.hasError();
 						nextSolution
 							.calculateCriticalPath();
+
 						neighbourhood.add(nextSolution);
+
 					} catch (AssertionError ae) {
 
 						logger
@@ -34,6 +62,7 @@ public class Neighbourhood {
 								+ "critico genero una solucion invalida..");
 					}
 				} else {
+
 					if (!nextSolution.hasError()) {
 						nextSolution
 							.calculateCriticalPath();
