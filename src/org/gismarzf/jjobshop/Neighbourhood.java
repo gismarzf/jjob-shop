@@ -44,18 +44,4 @@ public class Neighbourhood {
 		return bestSol;
 	}
 
-	public Solution solutionWithMinErrors() {
-		int bestErrors = Integer.MAX_VALUE;
-		Solution bestSol = null;
-
-		for (Solution sol : neighbourhood) {
-			if (sol.getErrors() < bestErrors) {
-				bestSol = sol;
-				bestErrors = sol.getErrors();
-			}
-		}
-
-		return bestSol;
-	}
-
 }

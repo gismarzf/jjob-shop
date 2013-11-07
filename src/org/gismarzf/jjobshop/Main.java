@@ -5,7 +5,7 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Main {
+public class Main implements LogAble {
 
 	private static Logger logger = LogManager.getLogger();
 
@@ -17,7 +17,8 @@ public class Main {
 		int maxTabu = in.nextInt();
 
 		System.out.println("Max tiempo (minutos):");
-		long maxTiempo = in.nextInt() * 60 * 1000; // convert minutes to seconds
+		long maxTiempo = in.nextInt() * 60 * 1000; // convert minutes to
+													// milliseconds
 
 		logger.info("Leer excel...");
 		Excel er = new Excel(300);
