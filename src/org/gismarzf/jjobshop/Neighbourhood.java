@@ -9,7 +9,7 @@ public class Neighbourhood {
 	private List<Solution> neighbourhood = Lists
 		.newArrayList();
 
-	private NeighbourhoodCreateBehaviour newNeighbourhood;
+	private CreateNeighbourhoodBehaviour newNeighbourhood;
 
 	public static Neighbourhood newCriticalNeighbourhood(
 		Solution currentSolution, TabuList tabuList) {
@@ -17,7 +17,7 @@ public class Neighbourhood {
 		Neighbourhood nbh = new Neighbourhood();
 
 		nbh.newNeighbourhood =
-			new NeighbourhoodCreateCriticalBehaviour();
+			new CreateNeighbourhoodAsCriticalBehaviour();
 		nbh.neighbourhood =
 			nbh.newNeighbourhood.get(
 				currentSolution, tabuList);

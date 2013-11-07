@@ -6,10 +6,10 @@ import org.gismarzf.jjobshop.Arc.Type;
 
 import com.google.common.collect.Lists;
 
-public class NeighbourhoodCreateCriticalBehaviour
-	implements NeighbourhoodCreateBehaviour {
+public class CreateNeighbourhoodAsCriticalBehaviour
+	implements CreateNeighbourhoodBehaviour {
 
-	public NeighbourhoodCreateCriticalBehaviour() {
+	public CreateNeighbourhoodAsCriticalBehaviour() {
 		// TODO Auto-generated constructor stub
 	}
 
