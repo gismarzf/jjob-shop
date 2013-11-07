@@ -35,8 +35,8 @@ public class Main {
 		while (((System.currentTimeMillis() - start) < maxTiempo)) {
 
 			Neighbourhood nbh =
-				Neighbourhood.newCriticalNeighbourhood(s, s
-					.getCriticalPath(), tl);
+				Neighbourhood.newCriticalNeighbourhood(
+					s, tl);
 
 			s = nbh.solutionWithBestFunctional(best, tl);
 
@@ -56,7 +56,10 @@ public class Main {
 				best = new Solution(s);
 
 			logger
-				.info("**** Restan: "
+				.info("****"
+					+ " Tamaño lista tabu: "
+					+ tl.getSize()
+					+ ", restan: "
 					+ ((maxTiempo - (System
 						.currentTimeMillis() - start)) / (60 * 1000))
 					+ " minutos..");
@@ -71,9 +74,7 @@ public class Main {
 			tl.add(s.getMove());
 		}
 
-		er.export(best.getArcDirections(), best
-			.getProgramming(), best.getFunctional(), tl
-			.getMaxSize(), best.getCaminoCritico());
+		er.export(best, tl);
 
 		logger
 			.info("Terminado despues de "

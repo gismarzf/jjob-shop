@@ -9,25 +9,14 @@ import com.google.common.collect.Queues;
 
 public class TabuList {
 
+	private int maxSize;
+
+	private Queue<Integer> tabuList = Queues
+		.newArrayDeque();
+
 	public TabuList(int maxSize) {
 		this.maxSize = maxSize;
 	}
-
-	public int getMaxSize() {
-		return maxSize;
-	}
-
-	public void setMaxSize(int maxSize) {
-		this.maxSize = maxSize;
-	}
-
-	public int getSize() {
-		return tabuList.size();
-	}
-
-	private int maxSize;
-	private Queue<Integer> tabuList = Queues
-		.newArrayDeque();
 
 	// log4j, new one automatically adds class name
 	private static Logger logger = LogManager.getLogger();
@@ -42,6 +31,14 @@ public class TabuList {
 
 	}
 
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+	public int getSize() {
+		return tabuList.size();
+	}
+
 	public boolean isTabu(Arc a) {
 		if (tabuList.contains(a.getArcIndex())) {
 			logger.trace("****");
@@ -51,5 +48,9 @@ public class TabuList {
 		}
 
 		return false;
+	}
+
+	public void setMaxSize(int maxSize) {
+		this.maxSize = maxSize;
 	}
 }

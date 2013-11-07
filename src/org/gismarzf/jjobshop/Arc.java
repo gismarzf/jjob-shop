@@ -12,6 +12,17 @@ public class Arc extends DefaultWeightedEdge {
 	private int arcIndex = -1;
 	private Type type;
 
+	public int direction() {
+		((Operation) getSource()).getIndex();
+
+		if (((Operation) getSource()).getIndex() < ((Operation) getTarget())
+			.getIndex()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
 	public boolean equals(Arc b) {
 		return ((this.getType() == b.getType() && this
 			.getArcIndex() == b.getArcIndex()));
@@ -38,23 +49,13 @@ public class Arc extends DefaultWeightedEdge {
 
 		if ((type == Type.Conjunctive)
 			|| (type == Type.Disjunctive)) {
-			return Integer.toString(arcIndex) + " (" + type
-				+ "-" + (Operation) this.getSource() + ">"
+			return Integer.toString(arcIndex)
+				+ " (" + type + "-"
+				+ (Operation) this.getSource() + ">"
 				+ (Operation) this.getTarget() + ")";
 		} else {
 			return null;
 		}
 
-	}
-
-	public int direction() {
-		((Operation) getSource()).getIndex();
-
-		if (((Operation) getSource()).getIndex() < ((Operation) getTarget())
-			.getIndex()) {
-			return 1;
-		} else {
-			return 0;
-		}
 	}
 }

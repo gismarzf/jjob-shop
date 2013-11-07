@@ -8,10 +8,6 @@ public class Operation {
 		return index;
 	}
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
 	public int getJobNo() {
 		return jobNo;
 	}
@@ -22,6 +18,10 @@ public class Operation {
 
 	public int getMachineNo() {
 		return machineNo;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	public void setJobNo(int jobNo) {
