@@ -1,22 +1,14 @@
 package org.gismarzf.jjobshop;
 
-import java.util.List;
-
 import org.gismarzf.jjobshop.Arc.Type;
 
-import com.google.common.collect.Lists;
-
-public class CreateNeighbourhoodAsCriticalBehaviour
-	implements CreateNeighbourhoodBehaviour {
-
-	public CreateNeighbourhoodAsCriticalBehaviour() {
-		// TODO Auto-generated constructor stub
-	}
+public class CreateNeighbourhoodAsCritical
+	implements CreateNeighbourhoodBehaviour, LogAble {
 
 	@Override
-	public List<Solution> get(Solution s, TabuList tl) {
+	public Neighbourhood create(Solution s) {
 
-		List<Solution> neighbourhood = Lists.newArrayList();
+		Neighbourhood nbh = new Neighbourhood();
 
 		for (Arc e : s.getCriticalPath()) {
 
@@ -31,7 +23,9 @@ public class CreateNeighbourhoodAsCriticalBehaviour
 					assert !nextSolution.hasError();
 					nextSolution.calculateCriticalPath();
 
-					neighbourhood.add(nextSolution);
+					nbh
+						.getNeighbourhood().add(
+							nextSolution);
 
 				} catch (AssertionError ae) {
 
@@ -42,7 +36,7 @@ public class CreateNeighbourhoodAsCriticalBehaviour
 			}
 		}
 
-		return neighbourhood;
+		return nbh;
 
 	}
 

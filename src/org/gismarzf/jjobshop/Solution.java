@@ -89,16 +89,6 @@ public class Solution {
 		return -sum;
 	}
 
-	// public Solution clone() {
-	// Solution newSolution = new Solution(jobCount, operations);
-	// newSolution.newSolution.createGraph();
-	// newSolution.getCriticalPath().addAll(criticalPath);
-	// newSolution.setErrors(errors);
-	// newSolution.setFunctional(functional);
-	//
-	// return newSolution;
-	// }
-
 	public int countErrors() {
 		CycleDetector<Operation, Arc> cd =
 			new CycleDetector<Operation, Arc>(dGraph);

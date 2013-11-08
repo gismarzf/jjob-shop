@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 
 public class Main implements LogAble {
 
+	private static final int maxOperations = 300;
+	private static final int maxJobs = 30;
 	private static Logger logger = LogManager.getLogger();
 
 	public static void main(String[] args) {
@@ -21,61 +23,39 @@ public class Main implements LogAble {
 													// milliseconds
 
 		logger.info("Leer excel...");
-		Excel er = new Excel(300);
+		Excel er = new Excel(maxOperations);
 
-		logger.info("Obteniendo grafo disyuntivo...");
-		Solution s = new Solution(30, er.getOperations());
-		Solution best = new Solution(s);
-
-		TabuList tl = new TabuList(maxTabu);
+		Optimizer opt = new Optimizer();
+		opt.setInitialSolution(maxJobs, er.getOperations());
+		opt.setAsCriticalNeighbourhood();
+		opt.setAsTabuList(maxTabu);
 
 		logger.info("Empezando busqueda...");
-
 		long start = System.currentTimeMillis();
-
 		while (((System.currentTimeMillis() - start) < maxTiempo)) {
 
-			Neighbourhood nbh =
-				Neighbourhood.newCriticalNeighbourhood(
-					s, tl);
-
-			s = nbh.solutionWithBestFunctional(best, tl);
-
-			if (s == null) {
-
-				logger
-					.error("No puedo generar mas vecindarios"
-						+ " porque todos posibles vecinos estan tabu!!!");
-
-				logger.error("Lista tabu tiene "
-					+ tl.getSize() + " items.");
-
-				break;
-			}
-
-			if (s.getFunctional() < best.getFunctional())
-				best = new Solution(s);
+			opt.calculateNeighbourhood();
+			opt.calculateNextSolution();
 
 			logger
 				.info("****"
 					+ " Tamaño lista tabu: "
-					+ tl.getSize()
+					+ opt.getTl().getSize()
 					+ ", restan: "
 					+ ((maxTiempo - (System
 						.currentTimeMillis() - start)) / (60 * 1000))
 					+ " minutos..");
 
 			logger.info("Este funcional: "
-				+ s.getFunctional() + " (Move: "
-				+ s.getMove() + ")");
+				+ opt.getThisSolution().getFunctional()
+				+ " (Move: "
+				+ opt.getThisSolution().getMove() + ")");
 
 			logger.info("Mejor funcional: "
-				+ best.getFunctional());
-
-			tl.add(s.getMove());
+				+ opt.getBestSolution().getFunctional());
 		}
 
-		er.export(best, tl);
+		er.export(opt.getBestSolution(), opt.getTl());
 
 		logger
 			.info("Terminado despues de "
@@ -83,7 +63,8 @@ public class Main implements LogAble {
 				+ " minutos con max. lista tabu de "
 				+ maxTabu);
 
-		logger.info("Funcional: " + best.getFunctional());
+		logger.info("Funcional: "
+			+ opt.getBestSolution().getFunctional());
 
 		in.next();
 		in.close();
