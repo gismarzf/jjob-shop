@@ -24,8 +24,8 @@ implements ChooseNextSolutionBehaviour {
 		temperature = temperature * factor;
 
 		double delta =
-		randSolution.getFunctional()
-		- opt.getThisSolution().getFunctional();
+		opt.getThisSolution().getFunctional()
+		- randSolution.getFunctional();
 
 		if (randSolution.getFunctional() <= opt
 		.getThisSolution().getFunctional()) {
@@ -33,7 +33,7 @@ implements ChooseNextSolutionBehaviour {
 
 		} else if ((randSolution.getFunctional() > opt
 		.getThisSolution().getFunctional())
-		&& rnd.nextDouble() > Math.exp(delta / temperature)) {
+		&& rnd.nextDouble() < Math.exp(delta / temperature)) {
 
 			return randSolution;
 
