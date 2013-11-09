@@ -2,18 +2,57 @@ package org.gismarzf.jjobshop;
 
 import java.util.List;
 
-public class Optimizer implements LogAble {
+import com.google.common.collect.Lists;
+
+public class Optimizer implements Observable {
 
 	private Solution bestSolution;
 	private Solution thisSolution;
-	private Neighbourhood nbh;
-	private TabuList tl;
+	private List<Solution> nbh;
 
 	private ChooseNextSolutionBehaviour chooseSolution;
 	private CreateNeighbourhoodBehaviour createNeighbourhood;
 
+	private List<Object> observers;
+
+	private String status;
+	private Timer timer;
+
+	public ChooseNextSolutionBehaviour getChooseSolution() {
+		return chooseSolution;
+	}
+
+	public Optimizer(long maxTiempo) {
+		observers = Lists.newArrayList();
+		timer = new Timer(maxTiempo);
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public void registerObserver(Object o) {
+		observers.add(o);
+	}
+
+	public void removeObserver(Object o) {
+		if (observers.contains(o)) {
+			observers.remove(o);
+		}
+	}
+
+	public void notifyAllObservers() {
+		for (Object o : observers) {
+			Observer observer = (Observer) o;
+			observer.update(this);
+		}
+	}
+
 	public void calculateNeighbourhood() {
-		nbh = new Neighbourhood();
 		nbh = createNeighbourhood.create(thisSolution);
 	}
 
@@ -33,46 +72,38 @@ public class Optimizer implements LogAble {
 		this.thisSolution = thisSolution;
 	}
 
-	public TabuList getTl() {
-		return tl;
-	}
-
-	public void setTl(TabuList tl) {
-		this.tl = tl;
+	public List<Solution> getNbh() {
+		return nbh;
 	}
 
 	public void calculateNextSolution() {
 
-		thisSolution =
-			chooseSolution.choose(
-				thisSolution, bestSolution, tl, nbh);
+		thisSolution = chooseSolution.choose(this);
 
-		if (thisSolution.getFunctional() < bestSolution
-			.getFunctional()) {
+		if (thisSolution.getFunctional() < bestSolution.getFunctional()) {
 			bestSolution = new Solution(thisSolution);
 		}
 
-		tl.add(thisSolution.getMove());
+		status = chooseSolution.getStatus(this);
 
-	}
-
-	public void setAsCriticalNeighbourhood() {
-		createNeighbourhood =
-			new CreateNeighbourhoodAsCritical();
+		notifyAllObservers();
 	}
 
 	public void setInitialSolution(
-		int maxJobs, List<Operation> operations) {
+		int maxJobs,
+		List<Operation> operations) {
 
 		thisSolution = new Solution(maxJobs, operations);
-
 		bestSolution = new Solution(thisSolution);
 	}
 
-	public void setAsTabuList(int maxTabu) {
-		tl = new TabuList(maxTabu);
+	public void setChooseSolution(
+		ChooseNextSolutionBehaviour chooseSolution) {
+		this.chooseSolution = chooseSolution;
+	}
 
-		chooseSolution =
-			new ChooseNextSolutionWithTabuList();
+	public void setCreateNeighbourhood(
+		CreateNeighbourhoodBehaviour createNeighbourhood) {
+		this.createNeighbourhood = createNeighbourhood;
 	}
 }

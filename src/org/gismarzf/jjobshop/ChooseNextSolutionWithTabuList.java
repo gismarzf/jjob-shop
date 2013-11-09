@@ -1,32 +1,58 @@
 package org.gismarzf.jjobshop;
 
 public class ChooseNextSolutionWithTabuList
-	implements ChooseNextSolutionBehaviour, LogAble {
+implements
+ChooseNextSolutionBehaviour {
 
-	public ChooseNextSolutionWithTabuList() {
-		// TODO Auto-generated constructor stub
+	private TabuList tl;
+
+	public ChooseNextSolutionWithTabuList(int maxTabu) {
+		this.tl = new TabuList(maxTabu);
 	}
 
-	@Override
-	public Solution choose(
-		Solution thisSolution, Solution bestSolution,
-		TabuList tl, Neighbourhood nbh) {
+	public Solution choose(Optimizer opt) {
 
 		double bestFunctional = Integer.MAX_VALUE;
 		Solution bestSol = null;
 
-		for (Solution sol : nbh.getNeighbourhood()) {
+		for (Solution sol : opt.getNbh()) {
 			if ((sol.getFunctional() < bestFunctional && !tl
-				.isTabu(sol.getMove()))
-				|| (sol.getFunctional() < bestSolution
-					.getFunctional() && tl.isTabu(sol
-					.getMove()))) {
+			.isTabu(sol.getMove()))
+			|| (sol.getFunctional() < opt
+			.getBestSolution()
+			.getFunctional() && tl.isTabu(sol.getMove()))) {
+
 				bestSol = sol;
 				bestFunctional = sol.getFunctional();
+
 			}
 		}
 
+		tl.add(bestSol.getMove());
+
 		return bestSol;
+	}
+
+	public String getStatus(Optimizer opt) {
+		return ("****"
+		+ "\n"
+		+ "Tamaño lista tabu: "
+		+ tl.getSize()
+		+ ". "
+		+ "Este funcional: "
+		+ opt.getThisSolution().getFunctional()
+		+ " (Move: "
+		+ opt.getThisSolution().getMove()
+		+ ")"
+		+ "\n"
+		+ "Mejor funcional: " + opt
+		.getBestSolution()
+		.getFunctional());
+
+	}
+
+	public String toString() {
+		return "Lista Tabu (Max: " + tl.getMaxSize() + " )";
 	}
 
 }

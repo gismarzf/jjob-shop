@@ -5,7 +5,9 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Main implements LogAble {
+public class Main {
+
+	public static final double funcionalOptimo = 1784.0;
 
 	private static final int maxOperations = 300;
 	private static final int maxJobs = 30;
@@ -15,56 +17,67 @@ public class Main implements LogAble {
 
 		Scanner in = new Scanner(System.in);
 
-		System.out.println("Max items en lista tabu:");
-		int maxTabu = in.nextInt();
-
 		System.out.println("Max tiempo (minutos):");
 		long maxTiempo = in.nextInt() * 60 * 1000; // convert minutes to
 													// milliseconds
 
+		Optimizer opt = new Optimizer(maxTiempo);
+
+		int meta = -1;
+		while ((meta != 0) && (meta != 1)) {
+			System.out
+			.println("Metaheuristica? 0 : recocido, 1: tabu");
+			meta = in.nextInt();
+		}
+
+		if (meta == 0) {
+
+			System.out.println("Temperatura:");
+			double temperatura = in.nextDouble();
+			System.out.println("Factor descenso temperatura:");
+			double factor = in.nextDouble();
+
+			opt.setChooseSolution(new ChooseNextSolutionWithSA(
+			temperatura, factor));
+
+		} else if (meta == 1) {
+
+			System.out.println("Max items en lista tabu:");
+			int maxTabu = in.nextInt();
+			opt
+			.setChooseSolution(new ChooseNextSolutionWithTabuList(
+			maxTabu));
+
+		}
+
 		logger.info("Leer excel...");
 		Excel er = new Excel(maxOperations);
-
-		Optimizer opt = new Optimizer();
-		opt.setInitialSolution(maxJobs, er.getOperations());
-		opt.setAsCriticalNeighbourhood();
-		opt.setAsTabuList(maxTabu);
-
 		logger.info("Empezando busqueda...");
-		long start = System.currentTimeMillis();
-		while (((System.currentTimeMillis() - start) < maxTiempo)) {
+
+		opt.setInitialSolution(maxJobs, er.getOperations());
+		opt
+		.setCreateNeighbourhood(new CreateNeighbourhoodAsCritical());
+		opt.getTimer().setStart();
+
+		MyLogger mlogger = new MyLogger(opt);
+
+		while ((opt.getBestSolution().getFunctional() > funcionalOptimo)
+		&& opt.getTimer().getRemaining() > 0) {
 
 			opt.calculateNeighbourhood();
 			opt.calculateNextSolution();
 
-			logger
-				.info("****"
-					+ " Tamaño lista tabu: "
-					+ opt.getTl().getSize()
-					+ ", restan: "
-					+ ((maxTiempo - (System
-						.currentTimeMillis() - start)) / (60 * 1000))
-					+ " minutos..");
-
-			logger.info("Este funcional: "
-				+ opt.getThisSolution().getFunctional()
-				+ " (Move: "
-				+ opt.getThisSolution().getMove() + ")");
-
-			logger.info("Mejor funcional: "
-				+ opt.getBestSolution().getFunctional());
 		}
 
-		er.export(opt.getBestSolution(), opt.getTl());
+		er.export(opt, mlogger);
 
-		logger
-			.info("Terminado despues de "
-				+ ((System.currentTimeMillis() - start) / (60 * 1000))
-				+ " minutos con max. lista tabu de "
-				+ maxTabu);
+		logger.info("Terminado despues de "
+		+ Math.round(opt.getTimer().getElapsedMinutes())
+		+ " minutos con max. Metaheuristica: "
+		+ opt.getChooseSolution());
 
 		logger.info("Funcional: "
-			+ opt.getBestSolution().getFunctional());
+		+ opt.getBestSolution().getFunctional());
 
 		in.next();
 		in.close();

@@ -1,14 +1,24 @@
 package org.gismarzf.jjobshop;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.gismarzf.jjobshop.Arc.Type;
 
+import com.google.common.collect.Lists;
+
 public class CreateNeighbourhoodAsCritical
-	implements CreateNeighbourhoodBehaviour, LogAble {
+	implements
+	CreateNeighbourhoodBehaviour {
+
+	// log4j, new one automatically adds class name
+	private static Logger logger = LogManager.getLogger();
 
 	@Override
-	public Neighbourhood create(Solution s) {
+	public List<Solution> create(Solution s) {
 
-		Neighbourhood nbh = new Neighbourhood();
+		List<Solution> nbh = Lists.newArrayList();
 
 		for (Arc e : s.getCriticalPath()) {
 
@@ -22,16 +32,12 @@ public class CreateNeighbourhoodAsCritical
 
 					assert !nextSolution.hasError();
 					nextSolution.calculateCriticalPath();
-
-					nbh
-						.getNeighbourhood().add(
-							nextSolution);
+					nbh.add(nextSolution);
 
 				} catch (AssertionError ae) {
 
-					logger
-						.error("Cambiando la direccion de un arco de camino "
-							+ "critico genero una solucion invalida..");
+					logger.error("Cambiando la direccion de un arco de camino "
+						+ "critico genero una solucion invalida..");
 				}
 			}
 		}
