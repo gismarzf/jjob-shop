@@ -9,8 +9,8 @@ import org.gismarzf.jjobshop.Arc.Type;
 import com.google.common.collect.Lists;
 
 public class CreateNeighbourhoodAsCritical
-	implements
-	CreateNeighbourhoodBehaviour {
+		implements
+		CreateNeighbourhoodBehaviour {
 
 	// log4j, new one automatically adds class name
 	private static Logger logger = LogManager.getLogger();
@@ -36,8 +36,9 @@ public class CreateNeighbourhoodAsCritical
 
 				} catch (AssertionError ae) {
 
-					logger.error("Cambiando la direccion de un arco de camino "
-						+ "critico genero una solucion invalida..");
+					logger
+							.error("Cambiando la direccion de un arco de camino "
+									+ "critico genero una solucion invalida..");
 				}
 			}
 		}

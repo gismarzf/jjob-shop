@@ -22,8 +22,7 @@ public class Excel {
 	// log4j, new one automatically adds class name
 	private static Logger logger = LogManager.getLogger();
 
-	private List<Operation> operations =
-		new ArrayList<Operation>();
+	private List<Operation> operations = new ArrayList<Operation>();
 
 	public Excel(int maxOperations) {
 		setMaxOperations(maxOperations);
@@ -34,30 +33,34 @@ public class Excel {
 	public void export(Optimizer opt, MyLogger log) {
 
 		int[] arcDirections =
-			opt.getBestSolution().getArcDirections();
-		double functional =
-			opt.getBestSolution().getFunctional();
+				opt.getBestSolution().getArcDirections();
+		double functional = opt.getBestSolution().getFunctional();
 		double[][] programming =
-			opt.getBestSolution().getProgramming();
+				opt.getBestSolution().getProgramming();
 		int[][] caminoCritico =
-			opt.getBestSolution().getCaminoCritico();
+				opt.getBestSolution().getCaminoCritico();
 
-		String metaheuristica =
-			opt.getChooseSolution().toString();
+		String metaheuristica = opt.getChooseSolution().toString();
 
 		try {
 
 			File file =
-				File.createTempFile(("z" + (int) functional)
-					+ "t"
-					+ Math.round(opt
-						.getTimer()
-						.getElapsedMinutes())
-					+ "-output", ".xlsm", new File("."));
+					File.createTempFile(
+							"z="
+									+ (int) functional
+									+ " t="
+									+ Math.round(opt
+											.getTimer()
+											.getElapsedMinutes())
+									+ " "
+									+ opt.getChooseSolution()
+									+ "--",
+							".xlsm",
+							new File("."));
 
 			Workbook wb =
-				WorkbookFactory.create(getClass()
-					.getResourceAsStream("/input.xlsm"));
+					WorkbookFactory.create(getClass()
+							.getResourceAsStream("/input.xlsm"));
 
 			XSSFSheet sheet = (XSSFSheet) wb.getSheet("OUTPUT");
 
@@ -67,67 +70,90 @@ public class Excel {
 				sheet.createRow(i);
 			}
 
-			sheet.getRow(0).createCell(0).setCellValue(
-				"Operacion:");
 			sheet
-				.getRow(0)
-				.createCell(1)
-				.setCellValue("Inicio:");
+					.getRow(0)
+					.createCell(0)
+					.setCellValue("Operacion:");
+			sheet.getRow(0).createCell(1).setCellValue("Inicio:");
 			sheet.getRow(0).createCell(2).setCellValue("Fin:");
 
 			sheet.getRow(0).createCell(4).setCellValue("Arco");
-			sheet.getRow(0).createCell(5).setCellValue(
-				"Direccion:");
+			sheet
+					.getRow(0)
+					.createCell(5)
+					.setCellValue("Direccion:");
 
-			sheet.getRow(0).createCell(7).setCellValue(
-				"Funcional:");
-			sheet.getRow(0).createCell(8).setCellValue(
-				functional);
+			sheet
+					.getRow(0)
+					.createCell(7)
+					.setCellValue("Funcional:");
+			sheet.getRow(0).createCell(8).setCellValue(functional);
 
-			sheet.getRow(0).createCell(9).setCellValue(
-				"Metaheuristica:");
-			sheet.createRow(1).createCell(10).setCellValue(
-				metaheuristica);
+			sheet
+					.getRow(0)
+					.createCell(9)
+					.setCellValue("Metaheuristica:");
+			sheet
+					.createRow(1)
+					.createCell(10)
+					.setCellValue(metaheuristica);
 
-			sheet.getRow(0).createCell(11).setCellValue(
-				"Camino Critico:");
+			sheet
+					.getRow(0)
+					.createCell(11)
+					.setCellValue("Camino Critico:");
 
 			for (int i = 0; i < programming.length; i++) {
+				sheet.getRow(i + 1).createCell(0).setCellValue(i);
 				sheet
-					.getRow(i + 1)
-					.createCell(0)
-					.setCellValue(i);
-				sheet.getRow(i + 1).createCell(1).setCellValue(
-					programming[i][0]);
-				sheet.getRow(i + 1).createCell(2).setCellValue(
-					programming[i][1]);
+						.getRow(i + 1)
+						.createCell(1)
+						.setCellValue(programming[i][0]);
+				sheet
+						.getRow(i + 1)
+						.createCell(2)
+						.setCellValue(programming[i][1]);
 			}
 
 			for (int i = 0; i < arcDirections.length; i++) {
 
-				sheet.getRow(i + 1).createCell(4).setCellValue(
-					(double) i);
-				sheet.getRow(i + 1).createCell(5).setCellValue(
-					(double) arcDirections[i]);
+				sheet
+						.getRow(i + 1)
+						.createCell(4)
+						.setCellValue((double) i);
+				sheet
+						.getRow(i + 1)
+						.createCell(5)
+						.setCellValue((double) arcDirections[i]);
 			}
 
 			// operation: source( not included)
 			sheet.getRow(1).createCell(11).setCellValue(-1);
 			for (int i = 0; i < caminoCritico.length; i++) {
-				sheet.getRow(i + 2).createCell(11).setCellValue(
-					caminoCritico[i][0]);
-				sheet.getRow(i + 1).createCell(12).setCellValue(
-					caminoCritico[i][1]);
+				sheet
+						.getRow(i + 2)
+						.createCell(11)
+						.setCellValue(caminoCritico[i][0]);
+				sheet
+						.getRow(i + 1)
+						.createCell(12)
+						.setCellValue(caminoCritico[i][1]);
 			}
 
 			sheet = (XSSFSheet) wb.getSheet("LOG");
 			for (int i = 0; i < log.getLogList().size(); i++) {
-				sheet.createRow(i).createCell(0).setCellValue(
-					log.getLogList().get(i)[0]);
-				sheet.getRow(i).createCell(1).setCellValue(
-					log.getLogList().get(i)[1]);
-				sheet.getRow(i).createCell(2).setCellValue(
-					Main.funcionalOptimo);
+				sheet
+						.createRow(i)
+						.createCell(0)
+						.setCellValue(log.getLogList().get(i)[0]);
+				sheet
+						.getRow(i)
+						.createCell(1)
+						.setCellValue(log.getLogList().get(i)[1]);
+				sheet
+						.getRow(i)
+						.createCell(2)
+						.setCellValue(Main.FUNCIONAL_OPTIMO);
 			}
 
 			wb.write(out);
@@ -145,8 +171,8 @@ public class Excel {
 		try {
 
 			Workbook wb =
-				WorkbookFactory.create(getClass()
-					.getResourceAsStream("/input.xlsm"));
+					WorkbookFactory.create(getClass()
+							.getResourceAsStream("/input.xlsm"));
 
 			XSSFSheet sheet = (XSSFSheet) wb.getSheet("INPUT");
 			parseSheet(sheet);
@@ -184,25 +210,25 @@ public class Excel {
 			Operation op = new Operation();
 
 			index =
-				(int) sheet
-					.getRow(i)
-					.getCell(0)
-					.getNumericCellValue();
+					(int) sheet
+							.getRow(i)
+							.getCell(0)
+							.getNumericCellValue();
 			jobNo =
-				(int) sheet
-					.getRow(i)
-					.getCell(1)
-					.getNumericCellValue();
+					(int) sheet
+							.getRow(i)
+							.getCell(1)
+							.getNumericCellValue();
 			machineNo =
-				(int) sheet
-					.getRow(i)
-					.getCell(2)
-					.getNumericCellValue();
+					(int) sheet
+							.getRow(i)
+							.getCell(2)
+							.getNumericCellValue();
 			length =
-				(int) sheet
-					.getRow(i)
-					.getCell(3)
-					.getNumericCellValue();
+					(int) sheet
+							.getRow(i)
+							.getCell(3)
+							.getNumericCellValue();
 
 			// set fields
 			op.setIndex(index - 1); // because the xls sheet starts at 1

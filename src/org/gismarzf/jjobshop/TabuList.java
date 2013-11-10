@@ -11,8 +11,7 @@ public class TabuList {
 
 	private int maxSize;
 
-	private Queue<Integer> tabuList = Queues
-		.newArrayDeque();
+	private Queue<Integer> tabuList = Queues.newArrayDeque();
 
 	public TabuList(int maxSize) {
 		this.maxSize = maxSize;
@@ -42,8 +41,7 @@ public class TabuList {
 	public boolean isTabu(Arc a) {
 		if (tabuList.contains(a.getArcIndex())) {
 			logger.trace("****");
-			logger.trace("Salto arco tabu: "
-				+ a.getArcIndex());
+			logger.trace("Salto arco tabu: " + a.getArcIndex());
 			return true;
 		}
 

@@ -2,6 +2,10 @@ package org.gismarzf.jjobshop;
 
 import java.util.List;
 
+import org.gismarzf.util.Observable;
+import org.gismarzf.util.Observer;
+import org.gismarzf.util.Timer;
+
 import com.google.common.collect.Lists;
 
 public class Optimizer implements Observable {
@@ -80,7 +84,8 @@ public class Optimizer implements Observable {
 
 		thisSolution = chooseSolution.choose(this);
 
-		if (thisSolution.getFunctional() < bestSolution.getFunctional()) {
+		if (thisSolution.getFunctional() < bestSolution
+				.getFunctional()) {
 			bestSolution = new Solution(thisSolution);
 		}
 
@@ -90,20 +95,20 @@ public class Optimizer implements Observable {
 	}
 
 	public void setInitialSolution(
-		int maxJobs,
-		List<Operation> operations) {
+			int maxJobs,
+			List<Operation> operations) {
 
 		thisSolution = new Solution(maxJobs, operations);
 		bestSolution = new Solution(thisSolution);
 	}
 
 	public void setChooseSolution(
-		ChooseNextSolutionBehaviour chooseSolution) {
+			ChooseNextSolutionBehaviour chooseSolution) {
 		this.chooseSolution = chooseSolution;
 	}
 
 	public void setCreateNeighbourhood(
-		CreateNeighbourhoodBehaviour createNeighbourhood) {
+			CreateNeighbourhoodBehaviour createNeighbourhood) {
 		this.createNeighbourhood = createNeighbourhood;
 	}
 }

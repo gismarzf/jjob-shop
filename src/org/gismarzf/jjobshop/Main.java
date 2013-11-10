@@ -7,10 +7,10 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
 
-	public static final double funcionalOptimo = 1784.0;
+	public static final double FUNCIONAL_OPTIMO = 1784.0;
 
-	private static final int maxOperations = 300;
-	private static final int maxJobs = 30;
+	private static final int MAX_OPERATIONS = 300;
+	private static final int MAX_JOBS = 30;
 	private static Logger logger = LogManager.getLogger();
 
 	public static void main(String[] args) {
@@ -26,7 +26,7 @@ public class Main {
 		int meta = -1;
 		while ((meta != 0) && (meta != 1)) {
 			System.out
-			.println("Metaheuristica? 0 : recocido, 1: tabu");
+					.println("Metaheuristica? 0 : recocido, 1: tabu");
 			meta = in.nextInt();
 		}
 
@@ -38,31 +38,32 @@ public class Main {
 			double factor = in.nextDouble();
 
 			opt.setChooseSolution(new ChooseNextSolutionWithSA(
-			temperatura, factor));
+					temperatura,
+					factor));
 
 		} else if (meta == 1) {
 
 			System.out.println("Max items en lista tabu:");
 			int maxTabu = in.nextInt();
 			opt
-			.setChooseSolution(new ChooseNextSolutionWithTabuList(
-			maxTabu));
+					.setChooseSolution(new ChooseNextSolutionWithTabuList(
+							maxTabu));
 
 		}
 
 		logger.info("Leer excel...");
-		Excel er = new Excel(maxOperations);
+		Excel er = new Excel(MAX_OPERATIONS);
 		logger.info("Empezando busqueda...");
 
-		opt.setInitialSolution(maxJobs, er.getOperations());
+		opt.setInitialSolution(MAX_JOBS, er.getOperations());
 		opt
-		.setCreateNeighbourhood(new CreateNeighbourhoodAsCritical());
+				.setCreateNeighbourhood(new CreateNeighbourhoodAsCritical());
 		opt.getTimer().setStart();
 
 		MyLogger mlogger = new MyLogger(opt);
 
-		while ((opt.getBestSolution().getFunctional() > funcionalOptimo)
-		&& opt.getTimer().getRemaining() > 0) {
+		while ((opt.getBestSolution().getFunctional() > FUNCIONAL_OPTIMO)
+				&& opt.getTimer().getRemaining() > 0) {
 
 			opt.calculateNeighbourhood();
 			opt.calculateNextSolution();
@@ -72,12 +73,12 @@ public class Main {
 		er.export(opt, mlogger);
 
 		logger.info("Terminado despues de "
-		+ Math.round(opt.getTimer().getElapsedMinutes())
-		+ " minutos con max. Metaheuristica: "
-		+ opt.getChooseSolution());
+				+ Math.round(opt.getTimer().getElapsedMinutes())
+				+ " minutos con metaheuristica: "
+				+ opt.getChooseSolution());
 
 		logger.info("Funcional: "
-		+ opt.getBestSolution().getFunctional());
+				+ opt.getBestSolution().getFunctional());
 
 		in.next();
 		in.close();

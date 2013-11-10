@@ -15,18 +15,16 @@ public class Solution {
 	private List<Arc> criticalPath = Lists.newArrayList();
 
 	private SimpleDirectedWeightedGraph<Operation, Arc> dGraph =
-		new SimpleDirectedWeightedGraph<Operation, Arc>(
-			Arc.class);
+			new SimpleDirectedWeightedGraph<Operation, Arc>(
+					Arc.class);
 
-	private List<Arc> disjunctiveArcs = Lists
-		.newArrayList();
+	private List<Arc> disjunctiveArcs = Lists.newArrayList();
 
 	private int errors;
 	private double functional;;
 	private int jobCount, opxMachine;
 	private Arc move = new Arc();
-	private List<Operation> operations = Lists
-		.newArrayList();
+	private List<Operation> operations = Lists.newArrayList();
 	private Operation sink = new Operation();
 	private Operation source = new Operation();
 
@@ -56,8 +54,8 @@ public class Solution {
 
 		// this might fail
 		this.dGraph =
-			(SimpleDirectedWeightedGraph<Operation, Arc>) b.dGraph
-				.clone();
+				(SimpleDirectedWeightedGraph<Operation, Arc>) b.dGraph
+						.clone();
 	}
 
 	private static int machineCount = 10, opxJob = 10;
@@ -68,8 +66,9 @@ public class Solution {
 			return null;
 
 		BellmanFordShortestPath<Operation, Arc> sp =
-			new BellmanFordShortestPath<Operation, Arc>(
-				dGraph, source);
+				new BellmanFordShortestPath<Operation, Arc>(
+						dGraph,
+						source);
 
 		criticalPath = sp.getPathEdgeList(sink);
 		calculateFunctional();
@@ -91,7 +90,7 @@ public class Solution {
 
 	public int countErrors() {
 		CycleDetector<Operation, Arc> cd =
-			new CycleDetector<Operation, Arc>(dGraph);
+				new CycleDetector<Operation, Arc>(dGraph);
 
 		int count = 0;
 		for (Operation operation : operations) {
@@ -122,8 +121,7 @@ public class Solution {
 	}
 
 	public int[] getArcDirections() {
-		int[] arcDirections =
-			new int[disjunctiveArcs.size()];
+		int[] arcDirections = new int[disjunctiveArcs.size()];
 
 		for (Arc a : disjunctiveArcs) {
 			arcDirections[a.getArcIndex()] = a.direction();
@@ -137,11 +135,11 @@ public class Solution {
 
 		for (int i = 0; i < getCriticalPath().size(); i++) {
 			cc[i][0] =
-				dGraph.getEdgeTarget(
-					getCriticalPath().get(i)).getIndex();
+					dGraph
+							.getEdgeTarget(getCriticalPath().get(i))
+							.getIndex();
 			if (getCriticalPath().get(i).getType() == Type.Disjunctive) {
-				cc[i][1] =
-					getCriticalPath().get(i).getArcIndex();
+				cc[i][1] = getCriticalPath().get(i).getArcIndex();
 			}
 		}
 
@@ -152,9 +150,7 @@ public class Solution {
 		return criticalPath;
 	}
 
-	public
-		SimpleDirectedWeightedGraph<Operation, Arc>
-		getdGraph() {
+	public SimpleDirectedWeightedGraph<Operation, Arc> getdGraph() {
 		return dGraph;
 	}
 
@@ -188,15 +184,16 @@ public class Solution {
 			return null;
 
 		BellmanFordShortestPath<Operation, Arc> sp =
-			new BellmanFordShortestPath<Operation, Arc>(
-				dGraph, source);
+				new BellmanFordShortestPath<Operation, Arc>(
+						dGraph,
+						source);
 
 		for (int i = 0; i < operations.size(); i++) {
 
 			prog[i][1] = -sp.getCost(operations.get(i));
 			prog[i][0] =
-				prog[operations.get(i).getIndex()][1]
-					- operations.get(i).getLength();
+					prog[operations.get(i).getIndex()][1]
+							- operations.get(i).getLength();
 
 		}
 
@@ -205,7 +202,7 @@ public class Solution {
 
 	public boolean hasError() {
 		CycleDetector<Operation, Arc> cd =
-			new CycleDetector<Operation, Arc>(dGraph);
+				new CycleDetector<Operation, Arc>(dGraph);
 		return cd.detectCycles();
 	}
 
@@ -218,12 +215,11 @@ public class Solution {
 	}
 
 	public void setdGraph(
-		SimpleDirectedWeightedGraph<Operation, Arc> dGraph) {
+			SimpleDirectedWeightedGraph<Operation, Arc> dGraph) {
 		this.dGraph = dGraph;
 	}
 
-	public
-		void setDisjunctiveArcs(List<Arc> disjunctiveArcs) {
+	public void setDisjunctiveArcs(List<Arc> disjunctiveArcs) {
 		this.disjunctiveArcs = disjunctiveArcs;
 	}
 
@@ -244,16 +240,16 @@ public class Solution {
 		// might break b/c i dont know if the dgraph cares about those edges
 		// being from a different graph.
 		Arc previousEdge =
-			dGraph.getEdge(
-				dGraph.getEdgeSource(e),
-				dGraph.getEdgeTarget(e));
+				dGraph.getEdge(
+						dGraph.getEdgeSource(e),
+						dGraph.getEdgeTarget(e));
 
 		// only switch direction if it is disjunctive
 		if (previousEdge.getType() == Type.Disjunctive) {
 			Operation previousSource =
-				dGraph.getEdgeSource(previousEdge);
+					dGraph.getEdgeSource(previousEdge);
 			Operation previousTarget =
-				dGraph.getEdgeTarget(previousEdge);
+					dGraph.getEdgeTarget(previousEdge);
 
 			dGraph.removeEdge(previousEdge);
 			disjunctiveArcs.remove(previousEdge);
@@ -261,12 +257,10 @@ public class Solution {
 			Operation newSource = previousTarget;
 			Operation newTarget = previousSource;
 
-			Arc newEdge =
-				dGraph.addEdge(newSource, newTarget);
+			Arc newEdge = dGraph.addEdge(newSource, newTarget);
 			newEdge.setArcIndex(previousEdge.getArcIndex());
 			newEdge.setType(previousEdge.getType());
-			dGraph.setEdgeWeight(
-				newEdge, -newTarget.getLength());
+			dGraph.setEdgeWeight(newEdge, -newTarget.getLength());
 
 			move = newEdge;
 
@@ -275,8 +269,7 @@ public class Solution {
 	}
 
 	public String toString() {
-		return Double.toString(getFunctional())
-			+ " Move: " + move;
+		return Double.toString(getFunctional()) + " Move: " + move;
 	}
 
 	private void createConjunctiveArcs() {
@@ -285,28 +278,29 @@ public class Solution {
 		// jobs
 		for (int i = 0, index = 0; i < jobCount; i++) {
 			// from source to each 1st in job
-			e =
-				dGraph.addEdge(
-					source, operations.get(i * 10));
+			e = dGraph.addEdge(source, operations.get(i * 10));
 			dGraph.setEdgeWeight(e, -operations
-				.get(i * 10).getLength());
+					.get(i * 10)
+					.getLength());
 
 			// and last operations
 			e =
-				dGraph
-					.addEdge(
-						operations.get((i * 10)
-							+ (opxJob - 1)), sink);
+					dGraph
+							.addEdge(
+									operations.get((i * 10)
+											+ (opxJob - 1)),
+									sink);
 			e.setType(Type.Sink);
 			dGraph.setEdgeWeight(e, 0);
 
 			for (int j = i * 10; j < (i + 1) * 10 - 1; j++, index++) {
 				e =
-					dGraph.addEdge(
-						operations.get(j),
-						operations.get(j + 1));
-				dGraph.setEdgeWeight(
-					e, -operations.get(j + 1).getLength());
+						dGraph.addEdge(
+								operations.get(j),
+								operations.get(j + 1));
+				dGraph.setEdgeWeight(e, -operations
+						.get(j + 1)
+						.getLength());
 				e.setArcIndex(index);
 				e.setType(Type.Conjunctive);
 			}
@@ -319,17 +313,15 @@ public class Solution {
 
 		// machines
 		for (int i = 0, index = 0; i < machineCount; i++) {
-			List<Operation> ops =
-				returnOpsForMachine(i + 1);
+			List<Operation> ops = returnOpsForMachine(i + 1);
 			// machine indexes start at 1
 
 			for (int j = 0; j < opxMachine; j++) {
 				for (int j2 = 1; j2 < opxMachine - j; j2++, index++) {
-					e =
-						dGraph.addEdge(
-							ops.get(j), ops.get(j + j2));
+					e = dGraph.addEdge(ops.get(j), ops.get(j + j2));
 					dGraph.setEdgeWeight(e, -ops
-						.get(j + j2).getLength());
+							.get(j + j2)
+							.getLength());
 					e.setArcIndex(index);
 					e.setType(Type.Disjunctive);
 					disjunctiveArcs.add(e);
