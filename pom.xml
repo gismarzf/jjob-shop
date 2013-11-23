@@ -17,7 +17,7 @@
 			</resource>
 		</resources>
 		<plugins>
-		    			<plugin>
+			<plugin>
 				<groupId>com.zenjava</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>2.0</version>
@@ -58,6 +58,13 @@
 			<version>2.0</version>
 			<scope>system</scope>
 			<systemPath>C:\Program&#x20;Files\Java\jdk1.7.0_45\jre\lib\jfxrt.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.gismarzf</groupId>
+			<artifactId>utility</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>D:\Dropbox\_eclipse\_my-libs\utility-1.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
