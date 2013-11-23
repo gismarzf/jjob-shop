@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="org.gismarzf.jjobshop.GUIController">
+  <!-- TODO Add Nodes -->
+  <children>
+    <VBox prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <MenuBar>
+          <menus>
+            <Menu mnemonicParsing="false" text="File">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#exportar" text="Exportar..." />
+                <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem mnemonicParsing="false" onAction="#close" text="Salir" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
+        <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="150.0" />
+        <AreaChart fx:id="areaChart" legendVisible="false" VBox.vgrow="ALWAYS">
+          <xAxis>
+            <NumberAxis fx:id="xAxis" side="BOTTOM" />
+          </xAxis>
+          <yAxis>
+            <NumberAxis fx:id="yAxis" side="LEFT" />
+          </yAxis>
+        </AreaChart>
+        <HBox prefHeight="30.0" prefWidth="200.0">
+          <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="298.0">
+              <children>
+                <Button fx:id="empezarButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#start" prefWidth="75.0" text="Start" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </HBox.margin>
+                </Button>
+                <Button fx:id="stopButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#stop" prefWidth="75.0" text="Stop" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </HBox.margin>
+                </Button>
+                <Button id="stopButton" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#reset" prefWidth="75.0" text="Borrar" HBox.hgrow="NEVER">
+                  <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </HBox.margin>
+                </Button>
+              </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+              <children>
+                <ComboBox id="meta" fx:id="metaheuristicaComboBox" onAction="#changeMetaheuristica" prefWidth="150.0" promptText="Metaheuristica">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                  <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </HBox.margin>
+                </ComboBox>
+                <Label fx:id="maxListaTabuLabel" alignment="CENTER_LEFT" disable="false" focusTraversable="false" opacity="1.0" text="Max. lista tabu:" visible="true">
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+                  </HBox.margin>
+                </Label>
+                <TextField fx:id="maxListaTabuTextField" disable="false" prefWidth="50.0" promptText="" text="100" visible="true" HBox.margin="$x1" />
+                <Label id="maxListaTabuLabel" fx:id="temperaturaLabel" alignment="CENTER_LEFT" disable="false" focusTraversable="false" opacity="1.0" text="Temperatura:" visible="true">
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+                  </HBox.margin>
+                </Label>
+                <TextField id="maxListaTabuTextField" fx:id="temperaturaField" disable="false" prefWidth="50.0" promptText="" text="100" visible="true">
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+                  </HBox.margin>
+                </TextField>
+                <Label id="maxListaTabuLabel" fx:id="factorLabel" alignment="CENTER_LEFT" disable="false" focusTraversable="false" opacity="1.0" text="Factor:" visible="true">
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+                  </HBox.margin>
+                </Label>
+                <TextField id="maxListaTabuTextField" fx:id="factorField" disable="false" prefWidth="50.0" promptText="" text="0.99" visible="true">
+                  <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+                  </HBox.margin>
+                </TextField>
+              </children>
+            </HBox>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>
